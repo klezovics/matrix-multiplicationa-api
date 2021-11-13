@@ -1,6 +1,5 @@
 # Project stuff
-.env
-
+*.env
 
 # User-specific stuff
 .idea/**/workspace.xml
