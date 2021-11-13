@@ -1,5 +1,6 @@
 # Project stuff
 *.env
+target/**
 
 # User-specific stuff
 .idea/**
