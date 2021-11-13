@@ -1,0 +1,9 @@
+POST http://localhost:8081/multiply
+Content-Type: application/json
+
+{
+  "matrix_1": "[[1]]",
+  "matrix_2": "[[2]]"
+}
+
+###
