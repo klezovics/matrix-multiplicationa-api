@@ -9,6 +9,7 @@ import com.klezovich.input.InputObject
 import com.klezovich.output.OutputObject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import software.amazon.awssdk.services.sqs.SqsClient
+import software.amazon.awssdk.services.sqs.model.SendMessageRequest
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -17,9 +18,6 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
 
     @Inject
     lateinit var matrixMultiplicationService: MatrixMultiplicationService
-
-//    var sqsClient = SqsClient.builder().region(Region.EU_CENTRAL_1)
-//        .httpClient(software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient.builder().build()).build()
 
     @Inject
     lateinit var sqs: SqsClient
@@ -46,7 +44,7 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
         val m1 = body.matrix_1
         val m2 = body.matrix_2
 
-        logger.log("m1 $m1 and m2 $m2!\n")
+        logger.log("m1 ${mapper.writeValueAsString(m1)} and m2 ${mapper.writeValueAsString(m2)}!\n")
 
         val outputObject =
             OutputObject(
@@ -64,22 +62,13 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
 //                    .queueUrl(queueUrl)
 //                    .build()
 //            )
-            // Log.info("Message sent with id $message")
-            // sqsClient.listQueues().queueUrls().forEach { Log.info("Q $it") }
+//             Log.info("Message sent with id $message")
+//             sqsClient.listQueues().queueUrls().forEach { Log.info("Q $it") }
             logger.log("Let's say the message is sent\n")
         } catch (e: Throwable) {
             logger.log("Failed to send message: $e.message\n")
         }
 
         return outputObject
-//        Log.info("Request is: ${input!!.records[0].body}")
-//
-//        val m1 = input.records[0].body.matrix_1
-//        val m2 = input.records[0].body.matrix_2
-//
-//        return OutputObject(
-//            requestId = input.records[0].body.requestId,
-//            resultMatrix = matrixMultiplicationService.multiply(m1, m2)
-//        )
     }
 }
