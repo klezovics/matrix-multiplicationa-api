@@ -24,7 +24,7 @@ class SqsGateway {
             }
             Log.info("Message sent")
         } catch (t: Throwable) {
-            Log.error("Failed to send message")
+            Log.error("Failed to send message $t ${t.message} ${t.stackTrace}")
         }
     }
 }
