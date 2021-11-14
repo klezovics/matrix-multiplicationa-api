@@ -1,6 +1,6 @@
 package com.klezovich.output
 
 class OutputObject(
-    val requestId: Long,
+    val requestId: String,
     val resultMatrix: Array<DoubleArray>
 )
