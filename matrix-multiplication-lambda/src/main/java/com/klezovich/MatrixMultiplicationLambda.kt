@@ -7,9 +7,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.klezovich.input.InputObject
 import com.klezovich.output.OutputObject
-import org.eclipse.microprofile.config.inject.ConfigProperty
-import software.amazon.awssdk.services.sqs.SqsClient
-import software.amazon.awssdk.services.sqs.model.SendMessageRequest
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -20,10 +17,7 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
     lateinit var matrixMultiplicationService: MatrixMultiplicationService
 
     @Inject
-    lateinit var sqs: SqsClient
-
-    @ConfigProperty(name = "queue.matrix-multiplication-result")
-    lateinit var queueUrl: String
+    lateinit var sqsGateway: SqsGateway
 
     val mapper = ObjectMapper()
 
@@ -54,20 +48,8 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
 
         val outputString = mapper.writeValueAsString(outputObject)
         logger.log("Output string is $outputString\n")
-        logger.log("Trying to send request to sqs queue $queueUrl\n")
-        try {
-//            val message = sqsClient.sendMessage(
-//                SendMessageRequest.builder()
-//                    .messageBody(outputString)
-//                    .queueUrl(queueUrl)
-//                    .build()
-//            )
-//             Log.info("Message sent with id $message")
-//             sqsClient.listQueues().queueUrls().forEach { Log.info("Q $it") }
-            logger.log("Let's say the message is sent\n")
-        } catch (e: Throwable) {
-            logger.log("Failed to send message: $e.message\n")
-        }
+
+        sqsGateway.sendMessage(outputString)
 
         return outputObject
     }
