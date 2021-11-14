@@ -4,9 +4,9 @@
       "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
       "receiptHandle": "MessageReceiptHandle",
       "body": {
-        "requestId": 10,
-        "matrix_1": [[2,0],[0,2]],
-        "matrix_2": [[1,0],[0,1]]
+        "requestId": 99,
+        "matrix_1": [[2.0,0.0],[0.0,2.0]],
+        "matrix_2": [[1.0,0.0],[0.0,1.0]]
       },
       "attributes": {
         "ApproximateReceiveCount": "1",

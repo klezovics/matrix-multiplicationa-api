@@ -23,7 +23,7 @@ internal class InputObjectTest {
                   "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
                   "receiptHandle": "MessageReceiptHandle",
                   "body": {
-                    "requestId": 10,
+                    "requestId": 99,
                     "matrix_1": [[2,0],[0,2]],
                     "matrix_2": [[1,0],[0,1]]
                   },
@@ -46,7 +46,7 @@ internal class InputObjectTest {
         val io = mapper.readValue(json, InputObject::class.java)
 
         var recordBody = io.records[0].body
-        assertEquals(10, recordBody.requestId)
+        assertEquals(99, recordBody.requestId)
         assertEquals(2.0, recordBody.matrix_1[0][0], 0.1)
         assertEquals(1.0, recordBody.matrix_2[0][0], 0.1)
     }

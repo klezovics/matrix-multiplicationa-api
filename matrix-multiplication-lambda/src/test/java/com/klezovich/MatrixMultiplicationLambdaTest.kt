@@ -14,23 +14,37 @@ class LambdaHandlerTest {
 
     @Test
     fun testSimpleLambdaSuccess() {
-        val input = InputObject()
-
-        val body = MultiplyRequest()
-        body.requestId = 1
-        body.matrix_1 = arrayOf(doubleArrayOf(1.0, 0.0), doubleArrayOf(1.0, 0.0))
-        body.matrix_2 = arrayOf(doubleArrayOf(1.0, 0.0), doubleArrayOf(1.0, 0.0))
-
-        var record = SqsMessageRecord()
-        record.messageId = "adhsjd"
-        record.body = body
-
-        input.records = listOf(record)
+        val json = """
+            {
+              "Records": [
+                {
+                  "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
+                  "receiptHandle": "MessageReceiptHandle",
+                  "body": {
+                    "requestId": 98,
+                    "matrix_1": [[2,0],[0,2]],
+                    "matrix_2": [[1,0],[0,1]]
+                  },
+                  "attributes": {
+                    "ApproximateReceiveCount": "1",
+                    "SentTimestamp": "1523232000000",
+                    "SenderId": "123456789012",
+                    "ApproximateFirstReceiveTimestamp": "1523232000001"
+                  },
+                  "messageAttributes": {},
+                  "md5OfBody": "{{{md5_of_body}}}",
+                  "eventSource": "aws:sqs",
+                  "eventSourceARN": "arn:aws:sqs:us-east-1:123456789012:MyQueue",
+                  "awsRegion": "us-east-1"
+                }
+              ]
+            }
+        """.trimIndent()
 
         var response = given()
             .contentType("application/json")
             .accept("application/json")
-            .body(input)
+            .body(json)
             .`when`()
             .post()
             .then()
