@@ -15,6 +15,14 @@ internal class InputObjectTest {
     }
 
     @Test
+    fun testDeserealizeRequest() {
+        val json = """{"requestId":18,"matrix_1":[[1,0],[0,1]],"matrix_2":[[4,0],[0,4]]}""".trimIndent()
+
+        val request = mapper.readValue(json, MultiplyRequest::class.java)
+        assertEquals(18L, request.requestId)
+    }
+
+    @Test
     fun testDeserialise() {
         val json = """
             {
@@ -22,11 +30,7 @@ internal class InputObjectTest {
                 {
                   "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
                   "receiptHandle": "MessageReceiptHandle",
-                  "body": {
-                    "requestId": 99,
-                    "matrix_1": [[2,0],[0,2]],
-                    "matrix_2": [[1,0],[0,1]]
-                  },
+                  "body": "{ \"requestId\": 99,\"matrix_1\": [[2,0],[0,2]],\"matrix_2\": [[1,0],[0,1]]}",
                   "attributes": {
                     "ApproximateReceiveCount": "1",
                     "SentTimestamp": "1523232000000",
@@ -46,8 +50,7 @@ internal class InputObjectTest {
         val io = mapper.readValue(json, InputObject::class.java)
 
         var recordBody = io.records[0].body
-        assertEquals(99, recordBody.requestId)
-        assertEquals(2.0, recordBody.matrix_1[0][0], 0.1)
-        assertEquals(1.0, recordBody.matrix_2[0][0], 0.1)
+        val request = mapper.readValue(recordBody, MultiplyRequest::class.java)
+        assertEquals(99, request.requestId)
     }
 }

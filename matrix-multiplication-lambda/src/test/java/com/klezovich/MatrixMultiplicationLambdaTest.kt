@@ -16,11 +16,7 @@ class LambdaHandlerTest {
               "Records": [
                 {
                   "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
-                  "body": {
-                    "requestId": 98,
-                    "matrix_1": [[2,0],[0,2]],
-                    "matrix_2": [[1,0],[0,1]]
-                  },
+                  "body": "{\"requestId\": 99,\"matrix_1\": [[2,0],[0,2]],\"matrix_2\": [[1,0],[0,1]]}",
                   "attributes": {
                     "ApproximateReceiveCount": "1",
                     "SentTimestamp": "1523232000000",

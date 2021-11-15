@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.klezovich.input.InputObject
+import com.klezovich.input.MultiplyRequest
 import com.klezovich.output.OutputObject
 import javax.inject.Inject
 import javax.inject.Named
@@ -34,15 +35,16 @@ class MatrixMultiplicationLambda : RequestHandler<InputObject?, OutputObject> {
         logger.log("Input is: ${mapper.writeValueAsString(input)}\n")
 
         val body = input!!.records[0].body
+        val multiplyRequest = mapper.readValue(body, MultiplyRequest::class.java)
 
-        val m1 = body.matrix_1
-        val m2 = body.matrix_2
+        val m1 = multiplyRequest.matrix_1
+        val m2 = multiplyRequest.matrix_2
 
         logger.log("m1 ${mapper.writeValueAsString(m1)} and m2 ${mapper.writeValueAsString(m2)}!\n")
 
         val outputObject =
             OutputObject(
-                requestId = body.requestId,
+                requestId = multiplyRequest.requestId,
                 resultMatrix = matrixMultiplicationService.multiply(m1, m2)
             )
 
