@@ -23,7 +23,12 @@ internal class MultiplicationRequestControllerTest {
             .thenReturn(1L)
 
         given()
-            .body(MultiplicationRequestDTO("[[1]]", "[[1]]"))
+            .body(
+                MultiplicationRequestDTO(
+                    arrayOf(doubleArrayOf(1.0, 0.0), doubleArrayOf(1.0, 0.0)),
+                    arrayOf(doubleArrayOf(1.0, 0.0), doubleArrayOf(1.0, 0.0)),
+                )
+            )
             .contentType(ContentType.JSON)
             .`when`()
             .post("/multiply")

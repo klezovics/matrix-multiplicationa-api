@@ -24,6 +24,8 @@ class SqsGateway {
 
     fun sendToMultiplicationQueue(request: SqsMultiplicationRequest) {
         log.info("Sending request ${request.requestId} to queue")
+        log.info("Payload is ${sqsWriter.writeValueAsString(request)}")
+
         try {
             val request = toRequest(request)
             log.info("Request is $request")

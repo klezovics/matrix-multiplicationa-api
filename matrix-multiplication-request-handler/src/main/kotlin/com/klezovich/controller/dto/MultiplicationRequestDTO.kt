@@ -1,6 +1,6 @@
 package com.klezovich.controller.dto
 
 class MultiplicationRequestDTO(
-    val matrix_1: String,
-    val matrix_2: String,
+    val matrix_1: Array<DoubleArray>,
+    val matrix_2: Array<DoubleArray>,
 )

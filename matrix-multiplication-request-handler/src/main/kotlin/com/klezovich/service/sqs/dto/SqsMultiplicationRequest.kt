@@ -2,6 +2,6 @@ package com.klezovich.service.sqs.dto
 
 class SqsMultiplicationRequest(
     val requestId: Long,
-    val matrix_1: String,
-    val matrix_2: String
+    val matrix_1: Array<DoubleArray>,
+    val matrix_2: Array<DoubleArray>
 )

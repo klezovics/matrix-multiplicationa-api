@@ -1,5 +1,6 @@
 package com.klezovich.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.klezovich.controller.dto.MultiplicationRequestDTO
 import com.klezovich.entity.MultiplicationRequest
 import com.klezovich.entity.RequestStatus
@@ -22,6 +23,8 @@ class MultiplicationService {
 
     @Inject
     private lateinit var sqsGateway: SqsGateway
+
+    private val mapper = ObjectMapper()
 
     @Transactional
     fun processMultiplicationRequest(dto: MultiplicationRequestDTO): Long {
@@ -48,11 +51,17 @@ class MultiplicationService {
     }
 
     @Transactional
-    fun processMultiplicationResponse(response: SqsMultiplicationResponse) {
-        var request = repository.findById(response.requestId)!!
+    fun processMultiplicationResponse(response: SqsMultiplicationResponse): Boolean {
+        var request = repository.findById(response.requestId)
+        if (request == null) {
+            log.error("No matching request for response with id ${response.requestId}")
+            return true
+        }
+
         request.status = RequestStatus.COMPLETE
-        request.result = response.resultMatrix
+        request.result = mapper.writeValueAsString(response.resultMatrix)
         repository.persist(request)
         log.info("Request ${request.id} proccessed. ${request.result}")
+        return true
     }
 }

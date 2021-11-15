@@ -63,17 +63,18 @@ class SqsResultConsumer {
 
         val payload = message.body()
         val response = objectMapper.readValue(payload, SqsMultiplicationResponse::class.java)
-        if( response == null ) {
+        if (response == null) {
             Log.info("Response is null $response, payload $payload")
         }
 
-        multiplicationService.processMultiplicationResponse(response)
+        val processed = multiplicationService.processMultiplicationResponse(response)
 
-        return true
+        return processed
     }
 
     private fun handleResult(message: Message, success: Boolean) {
         if (success) {
+            println("Handled OK. Deleting message with id ${message.messageId()} from SQS")
             val request = DeleteMessageRequest.builder()
                 .queueUrl(queueUrl)
                 .receiptHandle(message.receiptHandle())
